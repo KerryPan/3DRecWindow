@@ -1,0 +1,5 @@
+Created by Henri Astre (http://www.visual-experiments.com/)
+
+Code available at : http://github.com/dddExperiments/SFMToolkit (MIT license)
+
+Using SiftGPU created by Changchang Wu (http://www.cs.unc.edu/~ccwu/siftgpu/)

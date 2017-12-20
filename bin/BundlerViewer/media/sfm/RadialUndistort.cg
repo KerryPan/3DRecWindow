@@ -1,0 +1,49 @@
+void RadialUndistort_vp(
+		// Vertex Inputs
+		float4 position		: POSITION,	 // Vertex position in model space
+		float2 texCoord0	: TEXCOORD0, // Texture UV set 0
+
+		// Outputs
+		out float4 oPosition : POSITION,	// Transformed vertex position
+		out float2 uv0		 : TEXCOORD0,	// UV0
+
+		// Model Level Inputs
+		uniform float4x4 worldViewProj)
+{
+	// Calculate output position
+	oPosition = mul(worldViewProj, position);
+
+	// Simply copy the input vertex UV to the output
+	uv0 = texCoord0;
+}
+
+void RadialUndistort_fp(
+	float4 uv			   : TEXCOORD0,
+	uniform sampler2D tex0 : register(s0),
+	uniform float4 textureSize,
+	uniform float distort1,
+	uniform float distort2,	
+	uniform float focal,
+	out float4 result	   : COLOR
+)
+{
+	float width  = textureSize.x;
+	float height = textureSize.y;
+	
+	float x_c = uv.x*width  - 0.5 * width;
+    float y_c = uv.y*height - 0.5 * height;
+
+    float r2 = (x_c * x_c + y_c * y_c) / (focal * focal);
+    float factor = 1.0 + distort1 * r2 + distort2 * r2 * r2;
+            
+	x_c *= factor;
+	y_c *= factor;
+
+	x_c += 0.5 * width;
+	y_c += 0.5 * height;
+	
+	x_c /= width;
+	y_c /= height;
+
+	result = tex2D(tex0, float2(x_c, y_c));
+}

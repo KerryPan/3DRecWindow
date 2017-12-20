@@ -1,0 +1,26 @@
+vertex_program RadialUndistort_vp cg
+{
+	source RadialUndistort.cg
+	entry_point RadialUndistort_vp
+	profiles vs_1_1 arbvp1
+
+	default_params
+	{
+		param_named_auto worldViewProj worldviewproj_matrix
+	}
+}
+
+fragment_program RadialUndistort_fp cg
+{
+	source RadialUndistort.cg
+	entry_point RadialUndistort_fp
+	profiles ps_3_0 fp30
+	
+	default_params
+	{
+		param_named_auto textureSize texture_size 0
+		param_named distort1 float 1.0
+		param_named distort2 float 1.0
+		param_named focal    float 750.0
+	}
+}

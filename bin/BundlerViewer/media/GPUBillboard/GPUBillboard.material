@@ -1,0 +1,45 @@
+vertex_program GPUBillboard_vp cg
+{
+	source GPUBillboard.cg
+	entry_point main_vp
+	profiles vs_1_1 arbvp1
+
+	default_params
+	{
+		param_named_auto worldViewTransfo worldView_matrix
+		param_named_auto projTransfo projection_matrix
+		param_named_auto billboardSize custom 0
+	}
+}
+
+fragment_program GPUBillboard_fp cg
+{
+	source GPUBillboard.cg
+	entry_point main_fp
+	profiles ps_2_0 arbfp1
+	
+	default_params
+	{
+	}
+}
+
+material GPUBillboard
+{
+	technique
+	{
+		pass
+		{
+			//scene_blend alpha_blend
+			alpha_rejection greater_equal 128
+			
+			vertex_program_ref GPUBillboard_vp
+			{
+			}
+			
+			fragment_program_ref GPUBillboard_fp
+			{
+			}
+		}
+	}
+}
+

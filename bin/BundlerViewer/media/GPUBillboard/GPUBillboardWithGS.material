@@ -1,0 +1,81 @@
+vertex_program GPUBillboardWithGS_vp cg
+{
+	source GPUBillboardWithGS.cg
+	entry_point main_vp
+	profiles vs_1_1 arbvp1 vs_4_0
+
+	default_params
+	{
+		param_named_auto worldViewTransfo worldview_matrix
+	}
+}
+
+geometry_program GPUBillboardWithGS_gp cg
+{
+	source GPUBillboardWithGS.cg
+	entry_point main_gp
+	profiles gp4gp gpu_gp gs_4_0
+	
+	default_params
+	{
+		param_named_auto projTransfo projection_matrix
+		param_named_auto billboardSize custom 0
+	}
+}
+
+fragment_program GPUBillboardWithGS_fp cg
+{
+	source GPUBillboardWithGS.cg
+	entry_point main_fp
+	profiles ps_2_0 arbfp1 ps_4_0
+	
+	default_params
+	{
+	}
+}
+
+material GPUBillboardWithGS
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			//scene_blend alpha_blend
+			alpha_rejection greater_equal 128
+							
+			vertex_program_ref GPUBillboardWithGS_vp
+			{
+			}
+			
+			geometry_program_ref GPUBillboardWithGS_gp
+			{
+			}
+			
+			fragment_program_ref GPUBillboardWithGS_fp
+			{
+			}
+		}
+	}
+}
+
+material Billboard
+{
+	technique
+	{
+		pass
+		{
+			//scene_blend alpha_blend
+			alpha_rejection greater_equal 128
+			
+			vertex_program_ref GPUBillboard_vp
+			{
+			}
+			
+			fragment_program_ref GPUBillboard_fp
+			{
+			}
+		}
+	}
+}
+

@@ -1,0 +1,15 @@
+2013-08-10
+    * TextureMesh 0.2
+    * Added saving out to Wavefront OBJ format. Can be imported by Meshlab.
+
+2013-07-25
+    * TextureMesh 0.1.2
+    * Support loading more than one patch file
+
+2012-09-28
+    * TextureMesh 0.1.1
+    * Silly bug fixed, it looked for models in the wrong directory. Program didn't even run.
+    * Added missing Makefile
+
+2012-09-04
+    * TextureMesh 0.1.0 first release   

@@ -1,0 +1,54 @@
+void main_vp(	float4 inPosition : POSITION,
+				float4 inColor : COLOR,
+				float2 inTexCoord0 : TEXCOORD0,
+				
+				out float4 outPosition : POSITION,
+				out float4 outColor : COLOR,
+				out float2 outTexCoord0 : TEXCOORD0,
+				
+				uniform float4x4 worldViewTransfo
+			)
+{
+	outPosition = mul( worldViewTransfo, inPosition );
+	outColor = inColor;
+	outTexCoord0 = inTexCoord0;
+}
+
+POINT
+TRIANGLE_OUT
+void main_gp(	float4 inPosition : POSITION,
+				float4 inColor : COLOR0,
+						
+				uniform float4x4 projTransfo,
+				uniform float2 billboardSize
+			)
+{
+	float2 cornerPoints[4] = { float2( -1, -1 ), float2( 1, -1 ), float2( -1, 1 ), float2( 1, 1 ) };
+	float2 texcoords[4] = { float2(0,1), float2(1,1), float2(0,0), float2(1,0) };
+	
+	for ( int i=0; i<4; i++ )
+	{
+		float4 pos = inPosition;
+		pos.xy += cornerPoints[i] * billboardSize;
+		pos = mul( projTransfo, pos );
+		emitVertex( pos : POSITION, inColor, texcoords[i] : TEXCOORD0 );
+	}
+	restartStrip();
+}
+
+void main_fp(	float4 inColor : COLOR,
+				float2 inTexCoord0 : TEXCOORD0,	
+
+				out float4 outColor : COLOR,
+		
+				uniform sampler2D texture
+			)
+{
+	float2 a = inTexCoord0 - 0.5;
+	float b = a.x*a.x + a.y*a.y;	
+	outColor = float4(inColor.rgb, b < 0.5*0.5);
+	
+	//old version using a texture
+	//outColor = inColor * tex2D( texture, inTexCoord0 );
+}
+

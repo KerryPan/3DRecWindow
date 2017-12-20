@@ -1,0 +1,17 @@
+Keyboard shorcut:
+-----------------
+
++ : show next camera 
+- : show previous camera
+O : increase point size (point cloud)
+P : decrease point size (point cloud)
+space : switch dense/sparse point cloud
+C : toggle camera plane visibility
+
+You can move using arrow key and ZQSD(Azerty) and mouse.
+
+Note:
+-----
+To enable the dense point cloud mode you have to generate it using CMVS/PMVS2.
+Then you have to open it (.ply file) using meshlab and save it in binary mode.
+Then you have to move the file to "your_folder/pmvs/models/mesh.ply"
